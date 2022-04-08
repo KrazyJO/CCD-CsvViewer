@@ -15,19 +15,14 @@ class CsvOutputTest {
 
   @Test
   void testFormatLine() {
-
     CSVData data = new CSVData();
     CsvOutput outputter = new CsvOutput(data); // -> deswegen sind Konstruktoren doof!
 
-    String input = "abc";
-    String expected = "abc";
-    String formattedOutput = outputter.formatLine(input);
-    Assertions.assertEquals(expected, formattedOutput);
+    String formattedOutput = outputter.formatLine("abc");
+    Assertions.assertEquals("abc", formattedOutput);
 
-    input = "Peter;42;New York";
-    expected = "Peter | 42 | New York";
-    formattedOutput = outputter.formatLine(input);
-    Assertions.assertEquals(expected, formattedOutput);
+    formattedOutput = outputter.formatLine("Peter;42;New York");
+    Assertions.assertEquals("Peter | 42 | New York", formattedOutput);
   }
 
 }

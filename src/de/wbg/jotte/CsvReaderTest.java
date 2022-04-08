@@ -17,7 +17,6 @@ class CsvReaderTest {
     input.add("Peter;42;New York");
     input.add("Paul;57;London");
 
-    assertTrue(data.getHeadline() == null);
     reader.transformLinesToData(input, data);
 
     assertTrue(data.getHeadline() != null);
