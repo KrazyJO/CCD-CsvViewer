@@ -1,30 +1,34 @@
 package de.wbg.jotte;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class CsvReader {
 
   public CSVData readFile(String path) {
     CSVData data = new CSVData();
-    Path p = Paths.get("src/de/wbg/jotte/persons.csv");
+
+    ArrayList<String> lines = readLinesFromFile(path);
+    transformLinesToData(lines, data);
+
+    return data;
+  }
+
+  ArrayList<String> readLinesFromFile(String path) {
+    Path p = Paths.get(path);
+    ArrayList<String> lines = new ArrayList<>();
+
     try {
       BufferedReader bufferedReader = Files.newBufferedReader(p, StandardCharsets.UTF_8);
 
-      // headline
-      String headline = bufferedReader.readLine();
-      String[] components = headline.split(";");
-      data.setHeadline(components);
-
-      // entries
       while (bufferedReader.ready()) {
         String l = bufferedReader.readLine(); //headline;
         if (l != null) {
-          data.getEntries().add(l);
+          lines.add(l);
         }
       }
 
@@ -34,7 +38,18 @@ public class CsvReader {
       return null;
     }
 
-    return data;
+    return lines;
+  }
+
+  void transformLinesToData(ArrayList<String> lines, CSVData data) {
+    data.setHeadline(transformLine(lines.get(0)));
+    lines.subList(1, lines.size()).forEach(l -> {
+      data.getEntries().add(l);
+    });
+  }
+
+  String[] transformLine(String line) {
+    return line.split(";");
   }
 
 }

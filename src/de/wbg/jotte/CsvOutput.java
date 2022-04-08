@@ -4,38 +4,38 @@ import java.util.Arrays;
 
 public class CsvOutput {
 
-  private CSVData data;
+  CSVData data;
 
   public CsvOutput(CSVData data) {
     this.data = data;
   }
 
-  public void outputCsv() {
+  void outputCsv() {
     printHeadline();
     printSeparator();
     printEntries();
   }
 
-  private void printHeadline() {
+  void printHeadline() {
     String formattedHeadline = formatLine(Arrays.toString(data.getHeadline()));
     print(formattedHeadline);
   }
 
-  private void printSeparator() {
+  void printSeparator() {
     print("-------------------------------");
   }
 
-  private void printEntries() {
+  void printEntries() {
     for(String entrie: data.getEntries()) {
       print(entrie);
     }
   }
 
-  private String formatLine(String line) {
+  String formatLine(String line) {
     return line.replace(";", " | ");
   }
 
-  private void print(String content) {
+  void print(String content) {
     System.out.println(content);
   }
 }
