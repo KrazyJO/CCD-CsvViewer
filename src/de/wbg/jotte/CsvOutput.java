@@ -82,7 +82,13 @@ public class CsvOutput {
       to = this.data.getEntries().size();
     }
 
-    return this.data.getEntries().subList(from, to);
+    ArrayList<String> numberedEntries = new ArrayList<>();
+    String entry;
+    for (var i = from; i < to; i++) {
+      entry = i+1 + ";" + this.data.getEntries().get(i);
+      numberedEntries.add(entry);
+    }
+    return numberedEntries;
   }
 
   int getLastPageCount() {
