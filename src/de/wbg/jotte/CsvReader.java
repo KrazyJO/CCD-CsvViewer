@@ -41,14 +41,14 @@ public class CsvReader {
     return lines;
   }
 
-  void transformLinesToData(ArrayList<String> lines, CSVData data) {
+  public void transformLinesToData(ArrayList<String> lines, CSVData data) {
     data.setHeadline(transformLine("No.;" +lines.get(0)));
     lines.subList(1, lines.size()).forEach(l -> {
       data.getEntries().add(l);
     });
   }
 
-  String[] transformLine(String line) {
+  public String[] transformLine(String line) {
     return line.split(";");
   }
 

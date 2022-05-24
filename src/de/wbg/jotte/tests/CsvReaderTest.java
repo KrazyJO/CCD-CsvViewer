@@ -1,8 +1,11 @@
-package de.wbg.jotte;
+package de.wbg.jotte.tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+
+import de.wbg.jotte.CSVData;
+import de.wbg.jotte.CsvReader;
 import org.junit.jupiter.api.Test;
 
 class CsvReaderTest {
@@ -19,13 +22,14 @@ class CsvReaderTest {
 
     reader.transformLinesToData(input, data);
 
-    assertTrue(data.getHeadline() != null);
+    assertNotNull(data.getHeadline());
     assertEquals(2, data.getEntries().size());
 
-    assertEquals(data.getHeadline().length, 3);
-    assertEquals("Name", data.getHeadline()[0]);
-    assertEquals("Age", data.getHeadline()[1]);
-    assertEquals("City", data.getHeadline()[2]);
+    assertEquals(data.getHeadline().length, 4);
+    assertEquals("No.", data.getHeadline()[0]);
+    assertEquals("Name", data.getHeadline()[1]);
+    assertEquals("Age", data.getHeadline()[2]);
+    assertEquals("City", data.getHeadline()[3]);
 
     assertEquals(data.getEntries().get(0), "Peter;42;New York");
     assertEquals(data.getEntries().get(1), "Paul;57;London");

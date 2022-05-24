@@ -7,7 +7,7 @@ public class CsvOutput {
 
     CSVData data;
     int pageSize = 3;
-    String formattetHeadline;
+    String formattedHeadline;
 
     public void setCurrentPage(int currentPage) {
         this.currentPage = currentPage;
@@ -44,15 +44,15 @@ public class CsvOutput {
     }
 
     String generateSeparatorLine() {
-      if (formattetHeadline != null) {
+      if (formattedHeadline != null) {
         StringBuilder builder = new StringBuilder();
-        builder.append("-".repeat(formattetHeadline.length() - 1));
-        int index = formattetHeadline.indexOf("|");
+        builder.append("-".repeat(formattedHeadline.length() - 1));
+        int index = formattedHeadline.indexOf("|");
         //replace first pipe character
         builder.setCharAt(index, '+');
 
         //replace all other pipe character
-        while ((index = formattetHeadline.indexOf("|", index + 1)) != -1) {
+        while ((index = formattedHeadline.indexOf("|", index + 1)) != -1) {
           builder.setCharAt(index, '+');
         }
 
@@ -80,19 +80,17 @@ public class CsvOutput {
             int size1 = headline[i].length();
             int size2 = maxColumnLengths.get(i);
             int result;
-            if (headline[i].length() < maxColumnLengths.get(i) || headline[i].length() > maxColumnLengths.get(i)) {
+            if (headline[i].length() <= maxColumnLengths.get(i) || headline[i].length() > maxColumnLengths.get(i)) {
                 if (size1 <= size2) {
                     result = (maxColumnLengths.get(i) + 1) - headline[i].length();
                 } else {
                     result = headline[i].length() - (maxColumnLengths.get(i) + 1);
                 }
-                for (var j = 0; j < result; j++) {
-                    buffer.append(" ");
-                }
+                buffer.append(" ".repeat(Math.max(0, result)));
                 buffer.append("| ");
             }
         }
-        formattetHeadline = buffer.toString();
+        formattedHeadline = buffer.toString();
         simplePrint(buffer.toString());
 
     }
@@ -124,7 +122,7 @@ public class CsvOutput {
         return maxLengthPerColumn;
     }
 
-    List<String> getCurrentPageEntries() {
+    public List<String> getCurrentPageEntries() {
         int from = pageSize * currentPage;
         int to = from + pageSize;
 
@@ -141,7 +139,7 @@ public class CsvOutput {
         return numberedEntries;
     }
 
-    int getLastPageCount() {
+    public int getLastPageCount() {
         int pages = this.data.getEntries().size() / this.pageSize;
         if (pages < this.data.getEntries().size() * this.pageSize) {
             return pages + 1;
@@ -149,7 +147,7 @@ public class CsvOutput {
         return pages;
     }
 
-    String formatLine(String line) {
+    public String formatLine(String line) {
         return line.replace(";", " | ");
     }
 
@@ -162,13 +160,9 @@ public class CsvOutput {
             buffer.append(value);
 
       if (value.length() < maxLengthPerColumn.get(i)) {
-        for (var j = 0; j < maxLengthPerColumn.get(i) - value.length(); j++) {
-          buffer.append(" ");
-        }
+          buffer.append(" ".repeat(Math.max(0, maxLengthPerColumn.get(i) - value.length())));
       }
-
             buffer.append(" | ");
-
         }
         simplePrint(buffer.toString());
     }

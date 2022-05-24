@@ -1,10 +1,10 @@
-package de.wbg.jotte;
+package de.wbg.jotte.tests;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.Date;
 import java.util.List;
 
+import de.wbg.jotte.CSVData;
+import de.wbg.jotte.CsvOutput;
+import de.wbg.jotte.CsvReader;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -40,28 +40,28 @@ class CsvOutputTest {
     List<String> entries = outputter.getCurrentPageEntries();
 
     //page: 0
-    Assertions.assertTrue(entries.get(0).startsWith("Peter"));
+    Assertions.assertTrue(entries.get(0).contains("Peter"));
     // Peter;42;New York
-    Assertions.assertTrue(entries.get(1).startsWith("Paul"));
+    Assertions.assertTrue(entries.get(1).contains("Paul"));
     // Paul;57;London
-    Assertions.assertTrue(entries.get(2).startsWith("Mary"));
+    Assertions.assertTrue(entries.get(2).contains("Mary"));
     // Mary;35;Munich
 
     //page: 1
     outputter.setCurrentPage(1);
     entries = outputter.getCurrentPageEntries();
     // Jaques;66;Paris
-    Assertions.assertTrue(entries.get(0).startsWith("Jaques"));
+    Assertions.assertTrue(entries.get(0).contains("Jaques"));
     // Yuri;23;Moscow
-    Assertions.assertTrue(entries.get(1).startsWith("Yuri"));
+    Assertions.assertTrue(entries.get(1).contains("Yuri"));
     // Stephanie;47;Stockholm
-    Assertions.assertTrue(entries.get(2).startsWith("Stephanie"));
+    Assertions.assertTrue(entries.get(2).contains("Stephanie"));
 
     //page: 2
     outputter.setCurrentPage(2);
     entries = outputter.getCurrentPageEntries();
     // Nadia;29;Madrid
-    Assertions.assertTrue(entries.get(0).startsWith("Nadia"));
+    Assertions.assertTrue(entries.get(0).contains("Nadia"));
   }
 
   @Test
