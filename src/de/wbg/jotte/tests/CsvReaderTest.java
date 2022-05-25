@@ -40,7 +40,7 @@ class CsvReaderTest {
     CsvReader reader = new CsvReader();
 
     String input = "abc";
-    String actual[] = reader.transformLine(input);
+    String[] actual = reader.transformLine(input);
     assertEquals(actual.length, 1);
 
     input = "abc;abc;abc";

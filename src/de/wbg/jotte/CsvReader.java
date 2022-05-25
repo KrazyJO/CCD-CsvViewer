@@ -9,47 +9,57 @@ import java.util.ArrayList;
 
 public class CsvReader {
 
-  public CSVData readFile(String path) {
-    CSVData data = new CSVData();
+    public CSVData readFile(String path) {
 
-    ArrayList<String> lines = readLinesFromFile(path);
-    transformLinesToData(lines, data);
 
-    return data;
-  }
+        CSVData data = new CSVData();
 
-  ArrayList<String> readLinesFromFile(String path) {
-    Path p = Paths.get(path);
-    ArrayList<String> lines = new ArrayList<>();
+        if (!path.endsWith(".csv")) {
 
-    try {
-      BufferedReader bufferedReader = Files.newBufferedReader(p, StandardCharsets.UTF_8);
-
-      while (bufferedReader.ready()) {
-        String l = bufferedReader.readLine(); //headline;
-        if (l != null) {
-          lines.add(l);
+            //in UI weiterleiten
+            System.out.println("Der Dateiname ist nicht korrekt.");
+            System.exit(0);
         }
-      }
 
-    } catch (Exception e) {
-      e.printStackTrace();
-      System.out.println("file not found");
-      return null;
+        ArrayList<String> lines = readLinesFromFile(path);
+
+        transformLinesToData(lines, data);
+
+        return data;
     }
 
-    return lines;
-  }
+    ArrayList<String> readLinesFromFile(String path) {
+        Path p = Paths.get(path);
+        ArrayList<String> lines = new ArrayList<>();
 
-  public void transformLinesToData(ArrayList<String> lines, CSVData data) {
-    data.setHeadline(transformLine("No.;" +lines.get(0)));
-    lines.subList(1, lines.size()).forEach(l -> {
-      data.getEntries().add(l);
-    });
-  }
+        try {
+            BufferedReader bufferedReader = Files.newBufferedReader(p, StandardCharsets.UTF_8);
 
-  public String[] transformLine(String line) {
-    return line.split(";");
-  }
+            while (bufferedReader.ready()) {
+                String l = bufferedReader.readLine(); //headline;
+                if (l != null) {
+                    lines.add(l);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("file not found");
+            return null;
+        }
+
+        return lines;
+    }
+
+    public void transformLinesToData(ArrayList<String> lines, CSVData data) {
+        data.setHeadline(transformLine("No.;" + lines.get(0)));
+        lines.subList(1, lines.size()).forEach(l -> {
+            data.getEntries().add(l);
+        });
+    }
+
+    public String[] transformLine(String line) {
+        return line.split(";");
+    }
 
 }
