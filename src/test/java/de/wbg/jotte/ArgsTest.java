@@ -1,4 +1,4 @@
-package de.wbg.jotte.tests;
+package de.wbg.jotte;
 
 import de.wbg.jotte.PageArgResult;
 import de.wbg.jotte.ReadArgs;

@@ -1,10 +1,7 @@
-package de.wbg.jotte.tests;
+package de.wbg.jotte;
 
 import java.util.List;
 
-import de.wbg.jotte.CSVData;
-import de.wbg.jotte.CsvOutput;
-import de.wbg.jotte.CsvReader;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +9,7 @@ class CsvOutputTest {
 
   private CsvOutput getTestOutputter() {
     CsvReader reader = new CsvReader();
-    CSVData data = reader.readFile("src/de/wbg/jotte/persons.csv");
+    CSVData data = reader.readFile("src/main/resources/persons.csv");
     CsvOutput outputter = new CsvOutput(data); // -> deswegen sind Konstruktoren doof!
     return  outputter;
   }

@@ -18,7 +18,7 @@ public class ReadArgs {
                 pageArgResult.setArgFound(true);
                 pageArgResult.setHasError(false);
             } catch (Exception e) {
-                pageArgResult.setErrorReason("Die Eingabe war keine Zahl!!! Der eingebene Wert war: " +args[0]);
+                pageArgResult.setErrorReason(Messages.noNumber +args[0]);
             }
 
         }

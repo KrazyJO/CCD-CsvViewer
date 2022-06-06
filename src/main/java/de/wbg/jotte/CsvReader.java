@@ -53,9 +53,7 @@ public class CsvReader {
 
     public void transformLinesToData(ArrayList<String> lines, CSVData data) {
         data.setHeadline(transformLine("No.;" + lines.get(0)));
-        lines.subList(1, lines.size()).forEach(l -> {
-            data.getEntries().add(l);
-        });
+        lines.subList(1, lines.size()).forEach(l -> data.getEntries().add(l));
     }
 
     public String[] transformLine(String line) {
