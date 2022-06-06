@@ -10,29 +10,24 @@ public class CommandLineTool {
         enterColumnNameForSort
     }
 
-    private final String menuLine = "F)irst page, P)revious page, N)ext page, L)ast page, J)ump to page, S)ort, E)xit";
-    private final String enterPageNumberLine = "Please enter the page number of you're wishes:";
-    private final String enterColumnNameForSort = "Please enter column name to sort on:";
-    private final String errorColumnNotFound = "The columnName you entered was not found. Please try again!";
-
     private CsvOutput outputter;
     private InputMode inputMode = InputMode.normal;
 
     private Scanner scanner;
 
-    private String readNextCharFromScanner() {
+    private String readNextCharFromInputScanner() {
         return scanner.next().toLowerCase();
     }
 
-    private void setupScanner() {
+    private void setupInputScanner() {
         scanner = new Scanner(System.in);
     }
 
     void expectInput() {
-        setupScanner();
+        setupInputScanner();
 
         while (true) {
-            String chars = readNextCharFromScanner();
+            String chars = readNextCharFromInputScanner();
 
             if (inputMode == InputMode.normal) {
                 boolean exit = processNormalInput(chars);
@@ -105,8 +100,13 @@ public class CommandLineTool {
         this.inputMode = mode;
     }
 
-    void printErrorSortColumnNotFound() {
-        System.out.println(errorColumnNotFound);
+    private void printErrorSortColumnNotFound() {
+        System.out.println(Messages.errorColumnNotFound);
+    }
+
+    public void printErrorArgNotParsed(String error) {
+        System.out.println(error);
+        System.out.println(Messages.standartRows);
     }
 
     void printMenu() {
@@ -116,7 +116,7 @@ public class CommandLineTool {
 
         System.out.println();
         System.out.println(pageString);
-        System.out.println(menuLine);
+        System.out.println(Messages.menuLine);
     }
 
     private void printRepeatNumberInput(String chars) {
@@ -162,11 +162,11 @@ public class CommandLineTool {
     }
 
     private void printEnterPageNumber() {
-        System.out.println(enterPageNumberLine);
+        System.out.println(Messages.enterPageNumberLine);
     }
 
     private void printEnterColumnNameForSorting() {
-        System.out.println(enterColumnNameForSort);
+        System.out.println(Messages.enterColumnNameForSort);
     }
 
     private boolean isLastPageOrMore(int page) {

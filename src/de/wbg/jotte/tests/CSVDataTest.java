@@ -8,7 +8,7 @@ public class CSVDataTest {
 
     private CSVData generateTestCSVData() {
         CSVData data = new CSVData();
-        String headline[] = {"Name", "Age", "City"};
+        String headline[] = {"No.", "Name", "Age", "City"};
 
         data.setHeadline(headline);
         data.getEntries().add("Peter;42;New York");
@@ -21,7 +21,8 @@ public class CSVDataTest {
     @Test
     public void testSortColumnByName() {
         CSVData data = generateTestCSVData();
-        data.sortByColumn("Name");
+        boolean canSort = data.sortByColumn("name");
+        Assertions.assertTrue(canSort);
 
         Assertions.assertEquals("Mary", data.getEntries().get(0).split(";")[0]);
         Assertions.assertEquals("Paul", data.getEntries().get(1).split(";")[0]);
@@ -31,7 +32,8 @@ public class CSVDataTest {
     @Test
     public void testSortColumnByAge() {
         CSVData data = generateTestCSVData();
-        data.sortByColumn("Age");
+        boolean canSort = data.sortByColumn("age");
+        Assertions.assertTrue(canSort);
 
         Assertions.assertEquals("Mary", data.getEntries().get(0).split(";")[0]);
         Assertions.assertEquals("Paul", data.getEntries().get(2).split(";")[0]);
@@ -41,7 +43,8 @@ public class CSVDataTest {
     @Test
     public void testSortColumnColumnNotFound() {
         CSVData data = generateTestCSVData();
-        data.sortByColumn("NotGiven");
+        boolean canSort = data.sortByColumn("NotGiven");
+        Assertions.assertFalse(canSort);
 
         Assertions.assertEquals("Mary", data.getEntries().get(2).split(";")[0]);
         Assertions.assertEquals("Paul", data.getEntries().get(1).split(";")[0]);

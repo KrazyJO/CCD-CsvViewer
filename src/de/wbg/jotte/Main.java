@@ -15,13 +15,10 @@ public class Main {
         PageArgResult result = ReadArgs.readPageSize(args);
 
         if (result.isHasError()) {
-            //UI Ausgaben trennen
-            System.out.println(result.getErrorReason());
-            System.out.println("Es werden standardmäßig 3 Zeilen ausgegeben.");
+            commandLineTool.printErrorArgNotParsed(result.getErrorReason());
             outputter.setPageSize(3);
         } else if (!result.isArgFound()) {
             outputter.setPageSize(3);
-
         } else {
             outputter.setPageSize(result.getPageSizes());
         }
