@@ -2,12 +2,8 @@ package de.wbg.jotte.tests;
 
 import de.wbg.jotte.PageArgResult;
 import de.wbg.jotte.ReadArgs;
-import org.jetbrains.annotations.NotNull;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.Assert.assertEquals;
 
 public class ArgsTest {
 

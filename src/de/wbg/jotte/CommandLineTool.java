@@ -6,63 +6,107 @@ public class CommandLineTool {
 
     enum InputMode {
         normal,
-        page
+        enterPageNumber,
+        enterColumnNameForSort
     }
 
-    private final String menuLine = "F)irst page, P)revious page, N)ext page, L)ast page, J)ump to page, E)xit";
+    private final String menuLine = "F)irst page, P)revious page, N)ext page, L)ast page, J)ump to page, S)ort, E)xit";
     private final String enterPageNumberLine = "Please enter the page number of you're wishes:";
+    private final String enterColumnNameForSort = "Please enter column name to sort on:";
+    private final String errorColumnNotFound = "The columnName you entered was not found. Please try again!";
 
     private CsvOutput outputter;
     private InputMode inputMode = InputMode.normal;
 
+    private Scanner scanner;
+
+    private String readNextCharFromScanner() {
+        return scanner.next().toLowerCase();
+    }
+
+    private void setupScanner() {
+        scanner = new Scanner(System.in);
+    }
+
     void expectInput() {
-        Scanner scanner = new Scanner(System.in);
+        setupScanner();
+
         while (true) {
-            String chars = scanner.next().toLowerCase();
+            String chars = readNextCharFromScanner();
 
             if (inputMode == InputMode.normal) {
-                if (chars.equals("e"))
+                boolean exit = processNormalInput(chars);
+                if (exit) {
                     break;
-
-                if (chars.equals("f"))
-                    printFirstPage();
-
-                if (chars.equals("p"))
-                    printPreviousPage();
-
-                if (chars.equals("n"))
-                    printNextPage();
-
-                if (chars.equals("l"))
-                    printLastPage();
-
-                if (chars.equals("j")) {
-                    printEnterPageNumber();
-                    switchToPagesInputMode();
                 }
 
+            } else if (inputMode == InputMode.enterPageNumber) {
+                processEnterPageNumberInput(chars);
             } else {
-                try {
-                    int newPageIndexNumber = Integer.parseInt(chars) - 1;
-                    if (isPagePossible(newPageIndexNumber)) {
-                        printPage(newPageIndexNumber);
-                        switchToNormalInputMode();
-                    } else {
-                        printRepeatNumberInput(chars);
-                    }
-                } catch (NumberFormatException e) {
-                    printRepeatNumberInput(chars);
-                }
+                processEnterColumnNameForSortInput(chars);
             }
         }
     }
-    
-    private void switchToNormalInputMode() {
-        inputMode = InputMode.normal;
+
+    private boolean processNormalInput(String chars) {
+        switch (chars) {
+            case "e":
+                return true;
+            case "f":
+                printFirstPage();
+                break;
+            case "p":
+                printPreviousPage();
+                break;
+            case "n":
+                printNextPage();
+                break;
+            case "l":
+                printLastPage();
+                break;
+            case "j":
+                printEnterPageNumber();
+                setInputMode(InputMode.enterPageNumber);
+                break;
+            case "s":
+                printEnterColumnNameForSorting();
+                setInputMode(InputMode.enterColumnNameForSort);
+                break;
+        }
+
+        return false;
     }
-    
-    private void switchToPagesInputMode() {
-        inputMode = InputMode.page;
+
+    private void processEnterColumnNameForSortInput(String columnName) {
+        boolean isSorted = outputter.data.sortByColumn(columnName);
+        if (!isSorted) {
+            printErrorSortColumnNotFound();
+        } else {
+            setInputMode(InputMode.normal);
+            printPage(outputter.currentPage);
+        }
+    }
+
+    private void processEnterPageNumberInput(String chars) {
+        try {
+            int newPageIndexNumber = Integer.parseInt(chars) - 1;
+            if (isPagePossible(newPageIndexNumber)) {
+                printPage(newPageIndexNumber);
+                setInputMode(InputMode.normal);
+            } else {
+                printRepeatNumberInput(chars);
+            }
+        } catch (NumberFormatException e) {
+            printRepeatNumberInput(chars);
+        }
+    }
+
+    private void setInputMode(InputMode mode) {
+        this.inputMode = mode;
+    }
+
+    void printErrorSortColumnNotFound() {
+        System.out.println(errorColumnNotFound);
     }
 
     void printMenu() {
@@ -119,6 +163,10 @@ public class CommandLineTool {
 
     private void printEnterPageNumber() {
         System.out.println(enterPageNumberLine);
+    }
+
+    private void printEnterColumnNameForSorting() {
+        System.out.println(enterColumnNameForSort);
     }
 
     private boolean isLastPageOrMore(int page) {
