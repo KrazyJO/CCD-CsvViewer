@@ -1,4 +1,4 @@
-package de.wbg.jotte.tests;
+package de.wbg.jotte;
 
 import static org.junit.jupiter.api.Assertions.*;
 

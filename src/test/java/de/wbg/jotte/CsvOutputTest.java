@@ -1,18 +1,17 @@
-package de.wbg.jotte.tests;
+package de.wbg.jotte;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import de.wbg.jotte.CSVData;
-import de.wbg.jotte.CsvOutput;
-import de.wbg.jotte.CsvReader;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 class CsvOutputTest {
 
   private CsvOutput getTestOutputter() {
     CsvReader reader = new CsvReader();
-    CSVData data = reader.readFile("src/de/wbg/jotte/persons.csv");
+    CSVData data = reader.readFile("src/main/resources/persons.csv");
     CsvOutput outputter = new CsvOutput(data); // -> deswegen sind Konstruktoren doof!
     return  outputter;
   }
@@ -68,6 +67,22 @@ class CsvOutputTest {
   void testGetLastPageCount() {
     CsvOutput outputter = getTestOutputter();
     Assertions.assertEquals(3, outputter.getLastPageCount());
+  }
+
+  @Test
+  void testPrintPageEntry() {
+    CsvOutput outputter = getTestOutputter();
+    CsvOutput spyOutputter = Mockito.spy(outputter);
+    String resultString = "Jaques   | 66  | Paris | ";
+
+    String rawEntry = "Jaques;66;Paris";
+    ArrayList<Integer> maxLengthPerColumn = new ArrayList();
+    maxLengthPerColumn.add(8);
+    maxLengthPerColumn.add(3);
+    maxLengthPerColumn.add(5);
+
+    spyOutputter.printPageEntry(rawEntry, maxLengthPerColumn);
+    Mockito.verify(spyOutputter).simplePrint(resultString);
   }
 
 }
